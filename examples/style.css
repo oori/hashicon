@@ -113,3 +113,30 @@ section#footer {
 			margin: 0.3em; }
 		html #example_small canvas {
 			margin: 0.2em; } }
+
+
+
+/* CONTROLS */
+
+button {
+  background: #222;
+  color: #fff;
+  padding: 0.5em 2em;
+  vertical-align: text-top;
+  cursor: pointer;
+}
+
+#sliders {
+  display: flex;
+  justify-content: space-around;
+}
+
+#sliders > div {
+	height: 10em;
+
+}
+#sliders > div:after {
+  transform: rotateZ(90deg) translateY(-1.5em) translateX(-10em);
+  display: inline-block;
+  font-size: 80%;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>HashIcon</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://fonts.googleapis.com/css?family=Rubik:400,500" rel="stylesheet">
+	<link href="style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<!-- <script src="../dist/hashicon.umd.js"></script> -->
+	<script src="../dev/hashicon.umd.js"></script>
+	<script src="demo.js"></script>
+
+	<script src="lib/nouislider.js"></script>
+	<link rel="stylesheet" href="lib/nouislider.css" />
+</head>
+<body>
+
+	<!--Logo-->
+	<section id="logo">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+			<style>fill:none; stroke-width:1.745px; stroke: #222;</style>
+		  <path class="st0" d="M32 8L8 20v24l24 12 24-12V20zM32 8v48M20 14v36M44 14v36M8 20l48 24M56 20L8 44M44 14L8 32M56 32L20 50M20 14l36 18M8 32l36 18"/>
+		</svg>
+
+		<h1>HashIcon</h1>
+	</section>
+
+
+	<!--example input field + single canvas hashicon-->
+	<section id="input">
+		<h1>Paste a hash to see your HashIcon</h1>
+		<div><input type="text" id="hashInput" value="0xdc53525847b67a9e32d80066202d5744c86ae500"></div>
+		<div id="canvasContainer"></div>
+	</section>
+
+	<section>
+		<h1>Controls <button onclick="regenerateHashes()">roll `em</button></h1>
+		<div id="sliders"></div>
+	</section>
+
+	<!--random hash examples-->
+	<section><h1>big</h1><div id="example_big"></div></section>
+	<section><h1>medium</h1><div id="example_medium"></div></section>
+	<section><h1>small</h1><div id="example_small"></div></section>
+
+
+	<!-- footer -->
+<!--
+	<section id="footer">
+		<p><a href="info.html">privacy policy & contact</a> &nbsp;&nbsp;&nbsp; 2018 by scco @ etcdev</p>
+	</section>
+ -->
+
+
+	<script>
+		initControls();
+
+    generateHashes("example_big", 14);
+    // generateHashes("example_big", 6);
+    generateCanvas("example_big", {size: 140});
+
+    generateHashes("example_medium", 50);
+    generateCanvas("example_medium", {size: 80});
+
+    generateHashes("example_small", 150);
+    generateCanvas("example_small", {size: 44});
+
+
+    /**
+     * HASH INPUT
+     */
+    const canvasContainer = document.getElementById("canvasContainer");
+    const hashInput = document.getElementById('hashInput');
+    hashInput.addEventListener('input', (event) => {
+    	if (canvasContainer.firstChild) canvasContainer.firstChild.remove();
+    	canvasContainer.appendChild(hashicon(event.target.value, 240));
+    });
+    hashInput.dispatchEvent(new Event("input"));	// trigger on load
+
+	</script>
+</body>
+</html>
