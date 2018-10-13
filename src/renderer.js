@@ -38,7 +38,7 @@ function renderer(hash, params) {
 	const ctx = canvas.getContext('2d');
 
 	sprite.forEach((line, i) => {
-		const light = params.light.enabled ? params.light[line.light] : 1;
+		const light = params.light.enabled && !line.hidden ? params.light[line.light] : 0;
 
 		const x = parseInt(hash.split("x").pop().substr(i,1), 16);	// TODO processParam
 		const variation = params.variation.enabled ? processParam(params.variation, x) : 0;
