@@ -11,6 +11,7 @@ import { chunkHash, createCanvas } from './utils';
  * @return {Number}       Normalised number
  */
 function processParam(param, value) {
+	if (param.min === param.max) return param.min;
 	return param.min + (value % ( param.max - param.min ));
 }
 
