@@ -18,30 +18,31 @@ function processParam(param, value) {
 
 /**
  * Canvas renderer
- * @param  {String} hash   Hex string seed value
+ * @param  {Uint16Array}	hashValues Integers
  * @param  {Object} params Rendering parameters
  * @return {Object}        Canvas HTML object
  */
-function renderer(hash, params) {
-	const chunks = chunkHash(hash, 6);	// Parse hash and calculate param values
-	const hue = processParam(params.hue, chunks[0]);
-	const saturation = processParam(params.saturation, chunks[1]);
-	const lightness = processParam(params.lightness, chunks[2]);
-	const shift = processParam(params.shift, chunks[3]);
-	const figurealpha = processParam(params.figurealpha, chunks[5]);
-	const figure = chunks[4] % figures.length;
+function renderer(hashValues, params) {
 
+	const hue = processParam(params.hue, hashValues[0]);
+	const saturation = processParam(params.saturation, hashValues[1]);
+	const lightness = processParam(params.lightness, hashValues[2]);
+	const shift = processParam(params.shift, hashValues[3]);
+	const figurealpha = processParam(params.figurealpha, hashValues[4]);
+	const figure = hashValues[5] % figures.length;
 
 	// Draw on canvas
 	const size = params.size || 100;
 	const canvas = createCanvas(size);
 	const ctx = canvas.getContext('2d');
 
+
 	sprite.forEach((line, i) => {
 		const light = params.light.enabled && !line.hidden ? params.light[line.light] : 0;
 
-		const x = parseInt(hash.split("x").pop().substr(i,1), 16);	// TODO processParam
-		const variation = params.variation.enabled ? processParam(params.variation, x) : 0;
+		// variations
+		const x = Math.round( hashValues[6] / (i+1) );
+		const variation = params.variation.enabled ? processParam(params.variation, x ) : 0;
 
 		// Draw on canvas
 		ctx.beginPath();
@@ -54,13 +55,13 @@ function renderer(hash, params) {
 		}
 
 		// Fill background
-		ctx.fillStyle = `hsla(${hue+variation}, ${saturation}%, ${lightness+variation+light}%, 1)`;
+		ctx.fillStyle = `hsla(${hue+variation}, ${saturation}%, ${lightness+light}%, 1)`;
 		ctx.fill();
 
 		// draw figure ( whats when opacity of data > 0 )
 		if( figures[figure][i] > 0 ){
 			const alpha = figures[figure][i] * figurealpha / 10;
-			ctx.fillStyle = `hsla(${shift+variation+shift}, ${saturation}%, ${lightness+variation+light}%, ${alpha})`;
+			ctx.fillStyle = `hsla(${hue+shift+variation}, ${saturation}%, ${lightness+light}%, ${alpha})`;
 			ctx.fill();
 		}
 	});

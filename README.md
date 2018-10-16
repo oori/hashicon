@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/github/release/ETCDEVTeam/hashicon.svg)](https://github.com/ETCDEVTeam/hashicon/releases)
+[![GitHub tag](https://img.shields.io/github/tag/ETCDEVTeam/hashicon.svg)](https://GitHub.com/ETCDEVTeam/hashicon/tags/)
 [![npm](http://img.shields.io/npm/v/hashicon.svg)](https://www.npmjs.com/package/hashicon)
 [![License](https://img.shields.io/npm/l/hashicon.svg)](LICENSE)
 
@@ -22,7 +22,7 @@ Browser
 
 Install with: 
 ```shell
-$ npm install hashicon
+$ npm install hashicon --save
 ```   
 
 Or, include the CDN:
@@ -44,19 +44,19 @@ const hash = "0xdc53525847b67a9e32d80066202d5744c86ae500";
 
 Create a `hashicon` with default params:
 ```js
-var icon = hashicon(hash); // icon is a canvas element
+const icon = hashicon(hash); // icon is a <canvas> element
+const icon = hashicon(hash, 80);  // size 80px
 ```
 
-Or, pass custom params:
+Or, pass custom [params](#params):
 ```js
 const params = {...};
-var icon = hashicon(hash, params);
+const icon = hashicon(hash, params);
 ```
 
 Finally, append the newly created `hashicon` to the HTML document:
 ```js
-document.body.appendChild(icon); 
-document.body.appendChild(icon, 80); // 80px (with HiDPI/retina adjustments)
+document.body.appendChild(icon);
 ```
 
 
@@ -64,12 +64,13 @@ Params
 ---
 > See [default params](src/params.js)
 
-HashIcons are generated from a hash number using the 
-modulo operator to extract bits of information as needed. 
-With this params you can manipulate the possible visual output.
+HashIcon's values are extracted from the hash, and controlled with the following parameters to manipulate the possible visual output:
 
 ```js
 {
+// size px (HiDPI/Retina aware)
+size: 100,
+
 // primary color range radius ( 0=red, 60=yellow, 120=green, ..., 360=red )
 hue: { min: 0, max: 360 },
 
@@ -80,10 +81,10 @@ saturation: { min: 70, max: 100 },
 lightness: { min: 45, max: 65 },
 
 // hue variation for individual triangles
-variation: { min: -12, max: 12, enabled: true },
+variation: { min: 7, max: 14, enabled: true },
 
 // color shift from primary hue to secondary hue ( the pattern )
-shift: { min: 150, max: 210 },
+shift: { min: 60, max: 300 },
 
 // the pattern opacity
 figurealpha: { min: .7, max: 1.2 }, // alpha
